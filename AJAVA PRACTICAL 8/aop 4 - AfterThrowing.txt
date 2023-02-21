@@ -1,0 +1,116 @@
+My_info.java 
+ 
+package com.prasanna_48.aop4;
+public class My_info {
+	public void print() { 
+ 	 	System.out.print("Name: Prasanna Pramod Sawant\n"); 
+ 	 	System.out.println("Roll No: 48      Div: A"); 
+	}
+}
+
+
+pom.xml 
+ 
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.prasanna_48</groupId>
+  <artifactId>AOP3</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  <name>aop4</name>
+  <url>http://maven.apache.org</url>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+  <dependencies> 
+    <dependency> 
+      <groupId>junit</groupId> 
+      <artifactId>junit</artifactId> 
+      <version>4.11</version> 
+      <scope>test</scope> 
+    </dependency> 
+    <dependency> 
+         <groupId>org.springframework</groupId> 
+         <artifactId>spring-context</artifactId> 
+         <version>5.3.14</version> 
+      </dependency> 
+      <dependency> 
+         <groupId>org.aspectj</groupId> 
+         <artifactId>aspectjweaver</artifactId> 
+         <version>1.9.7</version> 
+      </dependency> 
+  </dependencies> 
+</project>
+
+
+Voter.java 
+ 
+package com.prasanna_48.aop4;
+import org.springframework.stereotype.Component; 
+@Component 
+public class Voter { 
+ 	public void check(String name,int age) throws Exception { 
+ 	 	 	if(age>=18) { 
+ 	 	 	 	System.out.println("Eligible for voting"); 
+ 	 	 	} 
+ 	 	 	else { 
+ 	 	 	 	throw new Exception("Not Eligible as Age < 18");  
+ 	 	 	 	} 
+ 	 	} 
+}
+
+
+ 
+AppConfig.java 
+ 
+package com.prasanna_48.aop4;
+
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Component;
+
+@Component
+@ComponentScan(basePackages = "com.prasanna_48.aop4")
+public class AppConfig {
+}
+
+
+ 
+AfterThrow.java 
+ 
+package com.prasanna_48.aop4;
+
+import org.aspectj.lang.annotation.AfterThrowing;
+import org.aspectj.lang.annotation.Aspect;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.stereotype.Component;
+
+@Component
+@Aspect
+@EnableAspectJAutoProxy
+public class AfterThrow {
+	@AfterThrowing(pointcut = "execution(public void check(..))", throwing = "ex")
+	public void afterThrowingAdvice(Exception ex) {
+		System.out.println("After Throwing exception in method:");
+		System.out.println("Exception is:" + ex.getMessage());
+	}
+}
+
+
+ 
+MainClass.java 
+ 
+package com.prasanna_48.aop4;
+
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
+
+public class MainClass {
+	public static void main(String args[]) throws Exception {
+		AbstractApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+		Voter v = context.getBean("voter", Voter.class);
+		My_info my = new My_info();
+		my.print();
+		v.check("Prasanna", 15);
+	}
+}

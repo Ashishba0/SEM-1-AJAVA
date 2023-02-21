@@ -1,0 +1,53 @@
+Write a program using JSP that displays a webpage consisting of Application form for change of exam center which can be filled by any student who wants to change his/ her exam center. Make necessary assumptions
+---------------------
+
+1) ExamCenterChangeForm.html
+--------------------------------------
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<center>
+<form action="SubmitApplication.jsp" method="get">
+
+<h1>Change of Exam Center Form</h1> <br/><br/>
+<h2>Personal Information</h2><br/><br/>
+   Enter Name: <input type="text" name="name" id="name"/><br/><br/>
+   Roll No: <input type="text" name="rollno" id="rollno"/> <br/><br/>
+   Email: <input type="email" name="email" id="email"/><br/><br/>
+   Change Exam Center:<input type="text" name="currentcenter" id="currentcenter"/> <br/><br/>
+   Desired Exam Center:<input type="text" name="desiredcenter" id="desiredcenter"/> <br/><br/>
+   Reason for Change: <textarea name="reason"></textarea> <br/><br/>
+  <button type="submit">Submit</button> <br/><br/>
+  </form>
+ </center>
+</body>
+</html>
+
+2) SubmitApplication.jsp
+------------------------------------------
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<%
+		String name = request.getParameter("name");
+		int rollno = Integer.parseInt(request.getParameter("rollno"));
+		String email = request.getParameter("email");
+		String currentCenter = request.getParameter("currentcenter");
+		String desiredCenter = request.getParameter("desiredcenter");
+		String ReasonforChange = request.getParameter("reason");
+	%>
+	Dear <%=name %>! Your exam center has been changed from <%=currentCenter %> to <%=desiredCenter %>
+</body>
+</html>

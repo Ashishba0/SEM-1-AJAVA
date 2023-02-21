@@ -1,0 +1,132 @@
+1) pom.xml:-
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.spring</groupId>
+	<artifactId>spring3</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+	<name>spring3</name>
+	<url>http://maven.apache.org</url>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>6.0.4</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>6.0.4</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+</project>
+
+
+2) Engine.java:-
+
+package com.spring.spring3;
+
+public class Engine {
+	private int chassis;
+	private Vehicle vehicle;
+
+	public int getChassis() {
+		return chassis;
+	}
+
+	public void setChassis(int chassis) {
+		this.chassis = chassis;
+	}
+
+	public Vehicle getVehicle() {
+		return vehicle;
+	}
+
+	public void setVehicle(Vehicle vehicle) {
+		this.vehicle = vehicle;
+	}
+
+	void displayInfo() {
+		System.out.println(chassis + " is a chassis number ");
+		System.out.println(vehicle);
+	}
+}
+
+
+3) Vehicle.java:-
+
+package com.spring.spring3;
+
+public class Vehicle {
+	private String name, color;
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	public String toString() {
+		return "Car is " + name + " and colour is " + color;
+	}
+}
+
+
+4) MainClass.java:-
+
+package com.spring.spring3;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class MainClass {
+	public static void main(String[] args) {
+		ApplicationContext context = new ClassPathXmlApplicationContext("com/spring/spring3/Config.xml");
+		Engine e = (Engine) context.getBean("obj");
+		e.displayInfo();
+	}
+}
+
+
+5) Config.xml:-
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	<bean id="vehicle1" class="com.spring.spring3.Vehicle">
+		<property name="name" value="Mercidies"></property>
+		<property name="color" value="Black"></property>
+	</bean>
+	<bean id="obj" class="com.spring.spring3.Engine">
+		<property name="chassis" value="198767"></property>
+		<property name="vehicle" ref="vehicle1"></property>
+	</bean>
+</beans>
+
+
+

@@ -1,0 +1,138 @@
+Create a spring core application to create student object ( id, name, branch, age), and display the same ( use setter injection)
+-----------------------------------------------------------------
+
+1) student.java
+--------------------
+package com.springioc.setterinjex;
+
+public class student {
+	private int id;
+	private String name;
+	private String branch;
+	private int age;
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getBranch() {
+		return branch;
+	}
+	public void setBranch(String branch) {
+		this.branch = branch;
+	}
+	public int getAge() {
+		return age;
+	}
+	public void setAge(int age) {
+		this.age = age;
+	}
+	@Override
+	public String toString() {
+		return "student [id=" + id + ", name=" + name + ", branch=" + branch + ", age=" + age + "]";
+	}
+
+}
+-----------------------------
+2) studentBean.java
+------------------------------------
+package com.springioc.setterinjex;
+
+public class studentBean {
+	private student stud; // object of student class which has values of all properties
+
+	public student getStud() {
+		return stud;
+	}
+
+	public void setStud(student stud) {
+		this.stud = stud;
+	}
+	
+}
+------------------------------------------------
+3) Main.java
+--------------------------------------------
+package com.springioc.setterinjex;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class Main {
+	public static void main(String args[]) {
+		   ApplicationContext context = new ClassPathXmlApplicationContext("com/springioc/setterinjex/Config.xml");
+	        studentBean studentBean = context.getBean("studentBean", studentBean.class);
+	        student stud = studentBean.getStud();
+	        System.out.println("Student ID: " + stud.getId());
+	        System.out.println("Student Name: " + stud.getName());
+	        System.out.println("Student Branch: " + stud.getBranch());
+	        System.out.println("Student Age: " + stud.getAge());
+	}
+}
+-------------------------------------------------------------
+4) Config.xml
+-----------------------------------------------------
+<?xml version="1.0" encoding="UTF-8"?>
+<beans  xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+        
+        <bean id="stud" class="com.springioc.setterinjex.student">
+        <property name="id" value="42"/>
+        <property name="name" value="Rohan Rathod"/>
+        <property name="branch" value="MCA"/>
+        <property name="age" value="23"/>
+        </bean>
+        <bean id="studentBean" class="com.springioc.setterinjex.studentBean">
+        <property name="stud" ref="stud"/>
+        </bean>
+</beans>
+------------------------------------------------------------
+5) pom.xml
+----------------------------------------------------------
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.springioc</groupId>
+  <artifactId>setterinjex</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>setterinjex</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencies>
+	  <!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-core</artifactId>
+    <version>6.0.5</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-context</artifactId>
+    <version>6.0.5</version>
+</dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+</project>

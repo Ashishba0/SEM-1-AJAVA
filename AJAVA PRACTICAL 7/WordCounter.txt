@@ -1,0 +1,90 @@
+Create a spring core application to find the number of letters in a given word. Use appropriate dependency injection.
+------------------------------------------------------------
+1: pom.xml
+-----------------------------------------------------------
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.springioc</groupId>
+  <artifactId>countletter</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>countletter</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencies>
+	  <dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-core</artifactId>
+    <version>6.0.5</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-context</artifactId>
+    <version>6.0.5</version>
+</dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+</project>
+--------------------------------------------------------------
+2: WordCounter.java
+-----------------------------------------------------
+package com.springioc.countletter;
+
+public interface WordCounter {
+	public int countLetters(String word);
+}
+---------------------------------------------------------
+3:simpleWordCounter.java
+--------------------------------------------------------
+package com.springioc.countletter;
+
+public class simpleWordCounter implements WordCounter{
+
+	public int countLetters(String word) {
+		// TODO Auto-generated method stub
+		return word.length();
+	}
+
+}
+---------------------------------------------------
+4:config.xml
+------------------------------------------------------
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+  <bean id="wordCounter" class="com.springioc.countletter.simpleWordCounter" />
+
+</beans>
+------------------------------------------------------------
+5:MainClass.java
+-------------------------------------------------------------
+package com.springioc.countletter;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class MainClass {
+	public static void main(String[] args) {
+	    ApplicationContext context = new ClassPathXmlApplicationContext("com/springioc/countletter/config.xml");
+	    WordCounter wordCounter = (WordCounter) context.getBean("wordCounter");
+	    String word = "Rohan Rathod!";
+	    int letterCount = wordCounter.countLetters(word);
+	    System.out.println("The word \"" + word + "\" has " + letterCount + " letters.");
+	  }
+}

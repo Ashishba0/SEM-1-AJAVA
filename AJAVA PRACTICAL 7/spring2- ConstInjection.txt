@@ -1,0 +1,147 @@
+1) pom.xml:-
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.spring</groupId>
+	<artifactId>spring2</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+	<name>spring2</name>
+	<url>http://maven.apache.org</url>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>6.0.4</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>6.0.4</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+</project>
+
+
+
+2) Main.java:-
+
+package com.spring.spring2;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class Main {
+	public static void main(String[] args) {
+		ApplicationContext context = new ClassPathXmlApplicationContext("com/spring/spring2/applicationContext.xml");
+			
+		Shape s = (Shape) context.getBean("shapeid");
+		s.displayInfo();
+	}
+}
+
+
+3) Rectangle.java:-
+
+package com.spring.spring2;
+
+public class Rectangle {
+	private String length, breadth;
+
+	public Rectangle() {
+	}
+
+	public Rectangle(String length, String breadth) {
+		this.length = length;
+		this.breadth = breadth;
+	}
+
+	public String getLenghth() {
+		return length;
+	}
+
+	public void setLength(String length) {
+		this.length = length;
+	}
+
+	public String getBreadth() {
+		return breadth;
+	}
+
+	public void setBreadth(String breadth) {
+		this.breadth = breadth;
+	}
+
+	public String toString() {
+		return "length= " + length + " breadth= " + breadth;
+	}
+}
+
+
+4) Shape.java:-
+
+package com.spring.spring2;
+
+public class Shape {
+	private double radius;
+	private Rectangle rectangle;
+
+	public Shape(double radius) {
+		this.radius = radius;
+	}
+
+	public Shape(Rectangle rectangle) {
+		this.rectangle = rectangle;
+	}
+
+	public double getRadius() {
+		return radius;
+	}
+
+	public void setRadius(int radius) {
+		this.radius = radius;
+	}
+
+	public Rectangle getRectangle() {
+		return rectangle;
+	}
+
+	public void setRectangle(Rectangle rectangle) {
+		this.rectangle = rectangle;
+	}
+
+	void displayInfo() {
+		System.out.println("Area of circle: " + (Math.PI * radius * radius));
+		System.out.println("Dimensions of rectangle:" + rectangle);
+	}
+}
+
+
+5) applicationContext.xml:-
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	
+	<bean id="rectid" class="com.spring.spring2.Rectangle">
+		<property name="length" value="10" />
+		<property name="breadth" value="20" />
+	</bean>
+	<bean id="shapeid" class="com.spring.spring2.Shape">
+		<property name="radius" value="10" />
+		<constructor-arg ref="rectid" />
+	</bean>
+	
+</beans>

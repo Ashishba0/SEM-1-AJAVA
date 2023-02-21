@@ -1,0 +1,50 @@
+//Write a program to design a simple web-based interface to a Convert  Fahrenheit to Celsius  application. 
+The interface should consist of a title,suitable instructions, and a form for entering the  Fahrenheit to be converted. 
+Use text fields for entering the  Fahrenheit.
+
+1)index.html
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Fahrenheit to Celsius Converter</title>
+</head>
+<body>
+	<h1>Fahrenheit to Celsius Converter</h1>
+	<p>Enter the temperature in Fahrenheit and click the "Convert" button to convert it to Celsius.</p>
+	
+		<form method="post" action="convert.jsp">
+		<label for="fahrenheit">Fahrenheit:</label>
+		<input type="text" id="fahrenheit" name="fahrenheit">
+		<button type="submit">Convert</button>
+	</form>
+	
+
+</body>
+</html>
+
+2)convert.jsp
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<%
+	double fahrenheit = Double.parseDouble(request.getParameter("fahrenheit"));
+	double celsius = (fahrenheit - 32) * 5 / 9;
+%>
+<h1>Fahrenheit to Celsius Converter</h1>
+	<p>The temperature in Celsius is: <%= String.format("%.2f", celsius) %></p>
+
+
+</body>
+</html>
+

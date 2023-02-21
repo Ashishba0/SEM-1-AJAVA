@@ -1,0 +1,70 @@
+To design a form and use of JSP Scripting Element and JSP Directive. Display Grade of a student by accepting marks in five subjects.
+
+1) marks.html
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+       <style>
+h1 {text-align: center;}
+div {text-align: center;}
+</style>
+    </head>
+    <body>
+ 
+        <h1>Student marks</h1>
+       <div>
+        <form action="Marks.jsp" method="get">
+           Enter Marks in Java : <input type="text" name="Java"> <br><br>
+            Enter DBMS Marks : <input type="text"  name="DBMS"><br><br>
+            Enter WTL Marks :<input type="text"  name="WTL"><br><br>
+            Enter MFCS Marks :<input type="text"  name="MFCS"><br><br>
+            Enter DSL Marks :<input type="text"  name="DSL"><br><br>
+            <input type="submit">
+           </form>
+           </div>
+    </body>
+</html>
+
+
+2) Marks.jsp
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
+    </head>
+    <body>
+        <%
+             int Java=Integer.parseInt(request.getParameter("Java"));
+             int DBMS=Integer.parseInt(request.getParameter("DBMS"));
+             int WTL=Integer.parseInt(request.getParameter("WTL"));
+             int MFCS=Integer.parseInt(request.getParameter("MFCS"));
+             int DSL=Integer.parseInt(request.getParameter("DSL"));
+              
+            int c=Java+DBMS+WTL+MFCS+DSL;
+            double avg=c/5;
+        
+           
+         if(avg > 90 )
+         {
+             out.println(" your grade is A");
+         }else if (avg >= 80) {
+           out.println("your grade is B");
+        } else if (avg >= 70) {
+            out.println("your grade is C");
+        } else if (avg >= 60) {
+             out.println("your grade is D");
+        } else {
+             out.println("your grade is E");
+       }
+       %>
+    </body>
+</html>
+

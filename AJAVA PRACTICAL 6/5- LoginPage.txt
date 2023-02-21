@@ -1,0 +1,92 @@
+Write JSP code for Login page using Database connectivityConnectivity and validate login user
+
+1) login.html
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Login Page</title>
+</head>
+<body>
+	<h1>Login Page</h1>
+	<form action="validate.jsp" method="post">
+		<label for="username">Username:</label>
+		<input type="text" id="username" name="username">
+		<br>
+		<label for="password">Password:</label>
+		<input type="password" id="password" name="password">
+		<br>
+		<input type="submit" value="Login">
+	</form>
+</body>
+</html>
+
+2) validate.jsp
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    <%@ page import="java.sql.*" %>
+<%@ page import="java.io.*" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<%
+	String username = request.getParameter("username");
+	String password = request.getParameter("password");
+
+	Connection conn = null;
+	PreparedStatement stmt = null;
+	ResultSet rs = null;
+
+	try {
+		Class.forName("com.mysql.jdbc.Driver");
+		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/db", "root", "root");
+
+		stmt = conn.prepareStatement("SELECT * FROM users WHERE username=? AND password=?");
+		stmt.setString(1, username);
+		stmt.setString(2, password);
+
+		rs = stmt.executeQuery();
+
+		if (rs.next()) {
+			// Valid user, redirect to home page
+			response.sendRedirect("home.jsp");
+		} else {
+			// Invalid user, show error message
+			out.println("Invalid username or password");
+		}
+
+	} catch (Exception e) {
+		e.printStackTrace();
+	} finally {
+		if (rs != null) rs.close();
+		if (stmt != null) stmt.close();
+		if (conn != null) conn.close();
+	}
+%>
+<body>
+
+</body>
+</html>
+
+3) home.html
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h1>Welcome!</h1>
+	<p>You have successfully logged in.</p>
+
+</body>
+</html>
